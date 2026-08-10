@@ -195,12 +195,12 @@ number bundles top_k, top_p, min_p, repeat_penalty and temperature together.
 This script takes the bundle apart: one server, one request shape, one stage
 enabled at a time through the `samplers` array, plus a sweep over k.
 
-Two things it does that `server_overhead.sh` did not. Every request sets
-`ignore_eos`, so token counts are identical across configurations; one run in
-the earlier data stopped at 116 tokens instead of 512 and its client side rate
-was meaningless. And the baseline for the per stage ladder is temperature only
-at 1.0 rather than greedy, because at temperature 0 llama.cpp takes a greedy
-path that skips the chain entirely.
+Two details decide whether the numbers mean anything. Every request sets
+`ignore_eos`, so token counts are identical across configurations; without it a
+run can stop early and its client side rate is meaningless, which happened once
+in the `server_overhead.sh` data at 116 tokens instead of 512. And the baseline
+for the per stage ladder is temperature only at 1.0 rather than greedy, because
+at temperature 0 llama.cpp takes a greedy path that skips the chain entirely.
 
 Compare deltas, not absolute rates. Across models the engine step differs, so
 only `full_chain` minus `greedy` is comparable.
