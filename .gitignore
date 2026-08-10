@@ -1,0 +1,13 @@
+results/
+results-5090/
+results-5090-drv570/
+*.gguf
+__pycache__/
+*.pyc
+.venv/
+*.nsys-rep
+*.sqlite
+results-5090-drv580/
+!data/
+Снимок экрана*.png
+STRATEGY.md

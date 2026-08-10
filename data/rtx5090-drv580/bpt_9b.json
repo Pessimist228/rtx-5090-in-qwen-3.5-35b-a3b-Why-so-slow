@@ -1,0 +1,79 @@
+{
+  "meta": {
+    "arch": "qwen35",
+    "block_count": 33,
+    "embedding_length": 4096,
+    "head_count": 16,
+    "head_count_kv": 4,
+    "key_length": 256,
+    "value_length": 256,
+    "expert_count": null,
+    "expert_used_count": null,
+    "expert_shared_count": null,
+    "ssm_state_size": 128,
+    "ssm_conv_kernel": 4,
+    "ssm_inner_size": 4096,
+    "ssm_time_step_rank": 32,
+    "nextn_predict_layers": 1
+  },
+  "rows": [
+    {
+      "category": "attention",
+      "tensors": 128,
+      "stored_bytes": 978862080,
+      "read_bytes": 978862080,
+      "note": ""
+    },
+    {
+      "category": "gdn_ssm",
+      "tensors": 168,
+      "stored_bytes": 355485696,
+      "read_bytes": 355485696,
+      "note": ""
+    },
+    {
+      "category": "ffn_dense",
+      "tensors": 96,
+      "stored_bytes": 2730491904,
+      "read_bytes": 2730491904,
+      "note": ""
+    },
+    {
+      "category": "norms",
+      "tensors": 32,
+      "stored_bytes": 524288,
+      "read_bytes": 524288,
+      "note": ""
+    },
+    {
+      "category": "output_head",
+      "tensors": 2,
+      "stored_bytes": 834371584,
+      "read_bytes": 834371584,
+      "note": ""
+    },
+    {
+      "category": "embedding",
+      "tensors": 1,
+      "stored_bytes": 572129280,
+      "read_bytes": 2304.0,
+      "note": "одна строка на токен, ~2.2 КиБ"
+    },
+    {
+      "category": "mtp_head",
+      "tensors": 15,
+      "stored_bytes": 258557952,
+      "read_bytes": 0,
+      "note": "блоки [32], при обычном декоде не выполняются — исключены"
+    }
+  ],
+  "weights_read_bytes": 4899737856.0,
+  "gdn_state_bytes_rw": 100663296,
+  "gdn_layers": 24,
+  "attention_layers": 9,
+  "kv_bytes_per_ctx_token": 36864.0,
+  "kv_bytes": 0.0,
+  "depth": 0,
+  "total_bytes": 5000401152.0,
+  "expert_fraction": 1.0
+}

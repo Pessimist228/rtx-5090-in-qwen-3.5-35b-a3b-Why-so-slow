@@ -1,0 +1,93 @@
+{
+  "meta": {
+    "arch": "qwen35moe",
+    "block_count": 41,
+    "embedding_length": 2048,
+    "head_count": 16,
+    "head_count_kv": 2,
+    "key_length": 256,
+    "value_length": 256,
+    "expert_count": 256,
+    "expert_used_count": 8,
+    "expert_shared_count": null,
+    "ssm_state_size": 128,
+    "ssm_conv_kernel": 4,
+    "ssm_inner_size": 4096,
+    "ssm_time_step_rank": 32,
+    "nextn_predict_layers": 1
+  },
+  "rows": [
+    {
+      "category": "attention",
+      "tensors": 160,
+      "stored_bytes": 606162944,
+      "read_bytes": 606162944,
+      "note": ""
+    },
+    {
+      "category": "gdn_ssm",
+      "tensors": 210,
+      "stored_bytes": 219961856,
+      "read_bytes": 219961856,
+      "note": ""
+    },
+    {
+      "category": "moe_shared",
+      "tensors": 120,
+      "stored_bytes": 110100480,
+      "read_bytes": 110100480,
+      "note": ""
+    },
+    {
+      "category": "moe_routed",
+      "tensors": 120,
+      "stored_bytes": 18203279360,
+      "read_bytes": 568852480.0,
+      "note": "8 из 256 экспертов (0.0312)"
+    },
+    {
+      "category": "moe_router",
+      "tensors": 80,
+      "stored_bytes": 84213760,
+      "read_bytes": 84213760,
+      "note": ""
+    },
+    {
+      "category": "norms",
+      "tensors": 40,
+      "stored_bytes": 327680,
+      "read_bytes": 327680,
+      "note": ""
+    },
+    {
+      "category": "output_head",
+      "tensors": 2,
+      "stored_bytes": 417185792,
+      "read_bytes": 417185792,
+      "note": ""
+    },
+    {
+      "category": "embedding",
+      "tensors": 1,
+      "stored_bytes": 286064640,
+      "read_bytes": 1152.0,
+      "note": "одна строка на токен, ~1.1 КиБ"
+    },
+    {
+      "category": "mtp_head",
+      "tensors": 20,
+      "stored_bytes": 897955840,
+      "read_bytes": 0,
+      "note": "блоки [40], при обычном декоде не выполняются — исключены"
+    }
+  ],
+  "weights_read_bytes": 2006806144.0,
+  "gdn_state_bytes_rw": 125829120,
+  "gdn_layers": 30,
+  "attention_layers": 11,
+  "kv_bytes_per_ctx_token": 22528.0,
+  "kv_bytes": 0.0,
+  "depth": 0,
+  "total_bytes": 2132635264.0,
+  "expert_fraction": 0.03125
+}

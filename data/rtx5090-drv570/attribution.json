@@ -1,0 +1,118 @@
+{
+  "directory": "results/profile",
+  "trace_mode": "node",
+  "graph_launches": 127,
+  "cuda_graphs_used": true,
+  "direct_kernel_launches": 6336,
+  "kernels_total": 202352,
+  "kernels_in_graphs": 196016,
+  "kernels_per_token": 1543.4330708661416,
+  "window_tokens": 63,
+  "window_ms": 321.826257,
+  "gpu_busy_ms": 205.140454,
+  "gpu_idle_ms": 116.685803,
+  "gpu_busy_pct": 63.742609416732584,
+  "ms_per_token_in_window": 5.108353285714285,
+  "top_by_time": [
+    [
+      "void mul_mat_vec_q<",
+      268129886.0
+    ],
+    [
+      "quantize_q8_1",
+      80566887.0
+    ],
+    [
+      "void mul_mat_vec_f<float, float, ",
+      49765759.0
+    ],
+    [
+      "void rms_norm_f32<",
+      41189185.0
+    ],
+    [
+      "void k_bin_bcast<&op_add, float, float, float, const float *",
+      27391286.0
+    ],
+    [
+      "void l2_norm_f32<",
+      20107114.0
+    ],
+    [
+      "void cpy_scalar<&cpy_1_scalar<float, float>>",
+      18625118.0
+    ],
+    [
+      "void topk_moe_cuda<",
+      17340739.0
+    ],
+    [
+      "void k_get_rows_float<float, float>",
+      14052378.0
+    ],
+    [
+      "void ssm_conv_f32<",
+      14022297.0
+    ],
+    [
+      "void k_get_rows_float_vec<float>",
+      13764554.0
+    ],
+    [
+      "void k_bin_bcast<&op_mul, float, float, float, const float *",
+      13715828.0
+    ]
+  ],
+  "top_by_count": [
+    [
+      "quantize_q8_1",
+      37539
+    ],
+    [
+      "void mul_mat_vec_q<",
+      37539
+    ],
+    [
+      "void mul_mat_vec_f<float, float, ",
+      18060
+    ],
+    [
+      "void k_bin_bcast<&op_add, float, float, float, const float *",
+      18060
+    ],
+    [
+      "void rms_norm_f32<",
+      16899
+    ],
+    [
+      "void k_bin_bcast<&op_mul, float, float, float, const float *",
+      10320
+    ],
+    [
+      "void unary_op_kernel<&op_sigmoid, float>",
+      9030
+    ],
+    [
+      "void l2_norm_f32<",
+      7740
+    ],
+    [
+      "void cpy_scalar<&cpy_1_scalar<float, float>>",
+      5160
+    ],
+    [
+      "void topk_moe_cuda<",
+      5160
+    ],
+    [
+      "void k_get_rows_float<float, float>",
+      3999
+    ],
+    [
+      "void ssm_conv_f32<",
+      3870
+    ]
+  ],
+  "kernel_time_total_ms": 644.934789,
+  "distinct_kernels": 22
+}

@@ -1,0 +1,12 @@
+{"name": "greedy_nostream", "stream": false, "predicted_n": 512, "server_tps": 290.36, "server_ms": 1763.3, "prompt_n": 6, "prompt_tps": 35.9, "wall_s": 1.9499, "client_tps": 262.58}
+{"name": "greedy_nostream", "stream": false, "predicted_n": 512, "server_tps": 291.97, "server_ms": 1753.6, "prompt_n": 6, "prompt_tps": 105.2, "wall_s": 1.9085, "client_tps": 268.28}
+{"name": "greedy_nostream", "stream": false, "predicted_n": 512, "server_tps": 291.64, "server_ms": 1755.6, "prompt_n": 6, "prompt_tps": 104.8, "wall_s": 1.8311, "client_tps": 279.61}
+{"name": "greedy_stream", "stream": true, "predicted_n": 512, "server_tps": 288.56, "server_ms": 1774.3, "prompt_n": 6, "prompt_tps": 101.5, "wall_s": 1.8526, "client_tps": 276.37}
+{"name": "greedy_stream", "stream": true, "predicted_n": 512, "server_tps": 291.63, "server_ms": 1755.7, "prompt_n": 6, "prompt_tps": 103.2, "wall_s": 1.8345, "client_tps": 279.09}
+{"name": "greedy_stream", "stream": true, "predicted_n": 512, "server_tps": 291.89, "server_ms": 1754.1, "prompt_n": 6, "prompt_tps": 102.4, "wall_s": 1.8318, "client_tps": 279.51}
+{"name": "typical_nostream", "stream": false, "predicted_n": 512, "server_tps": 234.82, "server_ms": 2180.4, "prompt_n": 6, "prompt_tps": 102.3, "wall_s": 2.258, "client_tps": 226.75}
+{"name": "typical_nostream", "stream": false, "predicted_n": 512, "server_tps": 240.91, "server_ms": 2125.3, "prompt_n": 6, "prompt_tps": 104.8, "wall_s": 2.2768, "client_tps": 224.87}
+{"name": "typical_nostream", "stream": false, "predicted_n": 116, "server_tps": 239.78, "server_ms": 483.8, "prompt_n": 6, "prompt_tps": 105.0, "wall_s": 0.6365, "client_tps": 182.25}
+{"name": "typical_stream", "stream": true, "predicted_n": 512, "server_tps": 240.59, "server_ms": 2128.1, "prompt_n": 6, "prompt_tps": 104.8, "wall_s": 2.2757, "client_tps": 224.99}
+{"name": "typical_stream", "stream": true, "predicted_n": 512, "server_tps": 241.3, "server_ms": 2121.8, "prompt_n": 6, "prompt_tps": 103.9, "wall_s": 2.2706, "client_tps": 225.49}
+{"name": "typical_stream", "stream": true, "predicted_n": 512, "server_tps": 240.84, "server_ms": 2125.9, "prompt_n": 6, "prompt_tps": 105.1, "wall_s": 2.2751, "client_tps": 225.05}

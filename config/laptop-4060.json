@@ -1,0 +1,67 @@
+{
+  "host_id": "laptop-4060",
+  "phase": 1,
+  "description": "Ноутбук, RTX 4060 Laptop 8GB. Фаза 1: отладка харнесса на плотной Qwen3.5-9B.",
+
+  "gpu": {
+    "expected_name_substring": "RTX 4060",
+    "cuda_arch": "89",
+    "vram_total_mib": 8188,
+    "vram_type": "GDDR6",
+    "memory_bus_width_bits": 128,
+    "_comment_bandwidth": "spec_bandwidth_gbs — только справочно. Все roofline-расчёты идут по measured_bandwidth_gbs из Этапа 2.",
+    "spec_bandwidth_gbs": 256.0
+  },
+
+  "llama_cpp": {
+    "bin_dir": "D:/llama/llama-b10326-bin-win-cuda-12.4-x64",
+    "exe_suffix": ".exe",
+    "_comment_source": "Прибилженный upstream-релиз b10326 (3653e6d6d), CUDA 12.4. Из исходников не собирался: ТЗ запрещает править llama.cpp, бинарь сам сообщает коммит.",
+    "_comment_version": "Съехали с b9006 вынужденно: он не грузит Qwen3.5-35B-A3B, потому что не знает про MTP-голову (nextn_predict_layers=1, блок 40) и требует от неё GDN-тензоров. Фаза 2 без этого невозможна, а разные версии в двух фазах подмешали бы разницу движка в разницу накладных — то есть ровно в то, что измеряется. На плотной 9B версии неразличимы: b9006 дал 43.88 т/с, b10326 — 43.92.",
+    "build_from_source": false,
+    "pinned_commit": "3653e6d6d"
+  },
+
+  "models": {
+    "search_dirs": [
+      "D:/llama/models",
+      "D:/llama",
+      "D:/llama/llama-b9006-bin-win-cuda-12.4-x64"
+    ]
+  },
+
+  "results_dir": "D:/llama/harness/results",
+
+  "safety": {
+    "_comment": "8 ГБ VRAM. Любая частичная выгрузка на CPU делает замер бессмысленным — детектируем и падаем.",
+    "require_full_gpu_offload": true,
+    "vram_headroom_mib": 384,
+    "max_temperature_c": 87,
+    "_comment_throttle": "SwPowerCap на этой карте постоянен: лимит 75 Вт выбирается уже чистым чтением памяти (67 Вт при простаивающих SM). Падать по нему нельзя — Фаза 1 стала бы невыполнимой. Троттлинг пишется по каждой точке в bench.jsonl, и точки с просевшей частотой SM учитываются при разборе остатка.",
+    "fail_on_throttle": false
+  },
+
+  "bench_matrix": {
+    "_comment": "Этап 3. Только single stream. Разброс >3% между повторами => прогон помечается шумным.",
+    "prefill_tokens": [512, 2048, 8192, 32768],
+    "decode_tokens": 128,
+    "decode_depths": [0, 4096, 16384, 32768],
+    "batch": 1,
+    "flash_attn": [0, 1],
+    "kv_cache_types": ["f16", "q8_0"],
+    "n_gpu_layers": 99,
+    "split_mode": "none",
+    "repetitions": 5,
+    "warmup_runs": 1,
+    "noise_threshold_pct": 3.0,
+    "_comment_ctx": "8 ГБ VRAM: глубокие точки контекста будут отсеяны проверкой влезаемости, это ожидаемо.",
+    "threads": 12,
+
+    "_comment_thermal": "Без этого блока матрица недействительна. Замер без остывания показал просадку SM с 2550 до 1650 МГц за 7 точек: снятые позже точки медленнее не из-за своей конфигурации, а из-за нагрева. Остывание выравнивает стартовую температуру, перемешивание превращает остаточный дрейф в шум вместо систематики, якорная точка ловит случаи, когда и этого не хватило.",
+    "cooldown_target_c": 58,
+    "cooldown_max_wait_s": 150,
+    "randomize_order": true,
+    "order_seed": 1,
+    "anchor_check": true
+  }
+}

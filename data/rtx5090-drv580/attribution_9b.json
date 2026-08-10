@@ -1,0 +1,118 @@
+{
+  "directory": "results/profile9b",
+  "trace_mode": "node",
+  "graph_launches": 127,
+  "cuda_graphs_used": true,
+  "direct_kernel_launches": 3536,
+  "kernels_total": 112496,
+  "kernels_in_graphs": 108960,
+  "kernels_per_token": 857.9527559055118,
+  "window_tokens": 63,
+  "window_ms": 310.49222,
+  "gpu_busy_ms": 256.465982,
+  "gpu_idle_ms": 54.026238,
+  "gpu_busy_pct": 82.59980942517659,
+  "ms_per_token_in_window": 4.928447936507936,
+  "top_by_time": [
+    [
+      "void mul_mat_vec_q<",
+      450832658.0
+    ],
+    [
+      "quantize_q8_1",
+      50165284.0
+    ],
+    [
+      "void rms_norm_f32<",
+      34834721.0
+    ],
+    [
+      "void mul_mat_vec_f<float, float, ",
+      16454197.0
+    ],
+    [
+      "void l2_norm_f32<",
+      13694695.0
+    ],
+    [
+      "void k_get_rows_float<float, float>",
+      12255790.0
+    ],
+    [
+      "void cpy_scalar<&cpy_1_scalar<float, float>>",
+      11638145.0
+    ],
+    [
+      "void k_get_rows_float_vec<float>",
+      9678782.0
+    ],
+    [
+      "void ssm_conv_f32<",
+      9498137.0
+    ],
+    [
+      "void k_bin_bcast<&op_add, float, float, float, const float *",
+      8016378.0
+    ],
+    [
+      "void flash_attn_ext_vec<",
+      7362454.0
+    ],
+    [
+      "void unary_gated_op_kernel<&op_sigmoid, float>",
+      6917044.0
+    ]
+  ],
+  "top_by_count": [
+    [
+      "void mul_mat_vec_q<",
+      21801
+    ],
+    [
+      "quantize_q8_1",
+      21801
+    ],
+    [
+      "void rms_norm_f32<",
+      13545
+    ],
+    [
+      "void mul_mat_vec_f<float, float, ",
+      6192
+    ],
+    [
+      "void l2_norm_f32<",
+      6192
+    ],
+    [
+      "void k_bin_bcast<&op_add, float, float, float, const float *",
+      6192
+    ],
+    [
+      "void cpy_scalar<&cpy_1_scalar<float, float>>",
+      4128
+    ],
+    [
+      "void k_get_rows_float<float, float>",
+      3225
+    ],
+    [
+      "void k_get_rows_float_vec<float>",
+      3096
+    ],
+    [
+      "void ssm_conv_f32<",
+      3096
+    ],
+    [
+      "void gated_delta_net_cuda<",
+      3096
+    ],
+    [
+      "void unary_gated_op_kernel<&op_softplus, float>",
+      3096
+    ]
+  ],
+  "kernel_time_total_ms": 658.788066,
+  "distinct_kernels": 20
+}

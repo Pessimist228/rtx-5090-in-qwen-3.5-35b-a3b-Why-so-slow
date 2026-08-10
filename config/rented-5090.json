@@ -1,0 +1,62 @@
+{
+  "host_id": "rented-5090",
+  "phase": 2,
+  "description": "Арендованная RTX 5090 32GB (sm_120), Linux по SSH. Фаза 2: MoE Qwen3.5-35B-A3B. Отладки здесь быть не должно.",
+
+  "gpu": {
+    "expected_name_substring": "RTX 5090",
+    "cuda_arch": "120",
+    "vram_total_mib": 32607,
+    "vram_type": "GDDR7",
+    "memory_bus_width_bits": 512,
+    "_comment_bandwidth": "1792 ГБ/с — паспортное. Сверено с железом пода: 14001 МГц * 2 * 512 бит / 8 = 1792.1. Реально достижимое ниже, меряется в Этапе 2.",
+    "spec_bandwidth_gbs": 1792.0
+  },
+
+  "llama_cpp": {
+    "_comment_source": "Готового CUDA-бинаря под Linux в релизах нет (только CPU, ROCm, SYCL, Vulkan), поэтому собираем из исходников тот же коммит, что на ноуте: setup/build_llama.sh --arch 120 --commit b10326. nvcc 12.8.93 на поде уже стоял в /usr/local/cuda-12.8/bin, compute_120 поддерживает.",
+    "bin_dir": "/workspace/llama.cpp-b10326/build/bin",
+    "exe_suffix": "",
+    "build_from_source": true,
+    "pinned_commit": "3653e6d6d"
+  },
+
+  "models": {
+    "_comment": "/ на поде всего 30 ГБ, всё тяжёлое живёт в /workspace (753 ТБ).",
+    "search_dirs": [
+      "/workspace/models"
+    ]
+  },
+
+  "results_dir": "/workspace/harness/results",
+
+  "safety": {
+    "require_full_gpu_offload": true,
+    "vram_headroom_mib": 1024,
+    "max_temperature_c": 87,
+    "fail_on_throttle": true
+  },
+
+  "bench_matrix": {
+    "prefill_tokens": [512, 2048, 8192, 32768],
+    "_comment_decode_tokens": "512, а не 128 как на ноуте. На 5090 декод идёт на порядок быстрее, и 128 токенов укладываются в 0.44 с — окно слишком короткое, джиттер не усредняется. При n_gen=128 шумными вышли 14 точек из 26 против 6 на ноуте, где то же число токенов занимает 2.9 с. Порог шума общий, поэтому выравнивать надо длительность замера, а не порог.",
+    "decode_tokens": 512,
+    "decode_depths": [0, 4096, 16384, 32768],
+    "batch": 1,
+    "flash_attn": [0, 1],
+    "kv_cache_types": ["f16", "q8_0"],
+    "n_gpu_layers": 99,
+    "split_mode": "none",
+    "repetitions": 5,
+    "warmup_runs": 1,
+    "noise_threshold_pct": 3.0,
+    "threads": 16,
+
+    "_comment_thermal": "Стационарная карта охлаждается лучше ноутбучной, а время аренды платное — поэтому порог остывания выше и ждём меньше. Перемешивание и якорь оставлены: они почти бесплатны, а без них дрейф не отличить от эффекта конфигурации.",
+    "cooldown_target_c": 65,
+    "cooldown_max_wait_s": 60,
+    "randomize_order": true,
+    "order_seed": 1,
+    "anchor_check": true
+  }
+}

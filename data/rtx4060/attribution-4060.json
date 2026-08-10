@@ -1,0 +1,118 @@
+{
+  "directory": "results\\profile-4060",
+  "trace_mode": "node",
+  "graph_launches": 127,
+  "cuda_graphs_used": true,
+  "direct_kernel_launches": 3728,
+  "kernels_total": 118688,
+  "kernels_in_graphs": 114960,
+  "kernels_per_token": 905.1968503937007,
+  "window_tokens": 63,
+  "window_ms": 1386.274408,
+  "gpu_busy_ms": 1340.80333,
+  "gpu_idle_ms": 45.471078,
+  "gpu_busy_pct": 96.71990785247188,
+  "ms_per_token_in_window": 22.004355682539682,
+  "top_by_time": [
+    [
+      "void mul_mat_vec_q<",
+      2644148526.0
+    ],
+    [
+      "void rms_norm_f32<",
+      34341846.0
+    ],
+    [
+      "quantize_q8_1",
+      31666123.0
+    ],
+    [
+      "void k_get_rows_float_vec<float>",
+      30793777.0
+    ],
+    [
+      "void gated_delta_net_cuda<",
+      20181250.0
+    ],
+    [
+      "void k_bin_bcast<&op_add, float, float, float, const float *",
+      9152421.0
+    ],
+    [
+      "void cpy_scalar<&cpy_1_scalar<float, float>>",
+      8565386.0
+    ],
+    [
+      "void flash_attn_ext_vec<",
+      8050837.0
+    ],
+    [
+      "void l2_norm_f32<",
+      7540593.0
+    ],
+    [
+      "void concat_cont<unsigned int, ",
+      6320488.0
+    ],
+    [
+      "void k_get_rows_float<float, float>",
+      6269426.0
+    ],
+    [
+      "void ssm_conv_f32<",
+      5179078.0
+    ]
+  ],
+  "top_by_count": [
+    [
+      "void mul_mat_vec_q<",
+      27993
+    ],
+    [
+      "quantize_q8_1",
+      27993
+    ],
+    [
+      "void rms_norm_f32<",
+      13545
+    ],
+    [
+      "void k_bin_bcast<&op_add, float, float, float, const float *",
+      6192
+    ],
+    [
+      "void l2_norm_f32<",
+      6192
+    ],
+    [
+      "void cpy_scalar<&cpy_1_scalar<float, float>>",
+      4128
+    ],
+    [
+      "void k_get_rows_float<float, float>",
+      3225
+    ],
+    [
+      "void k_get_rows_float_vec<float>",
+      3096
+    ],
+    [
+      "void gated_delta_net_cuda<",
+      3096
+    ],
+    [
+      "void concat_cont<unsigned int, ",
+      3096
+    ],
+    [
+      "void ssm_conv_f32<",
+      3096
+    ],
+    [
+      "void unary_gated_op_kernel<&op_softplus, float>",
+      3096
+    ]
+  ],
+  "kernel_time_total_ms": 2828.455035,
+  "distinct_kernels": 19
+}

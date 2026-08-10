@@ -1,0 +1,506 @@
+{
+  "schema_version": 1,
+  "measured_at": "2026-08-10T04:30:33.756784+00:00",
+  "host_id": "laptop-4060",
+  "device": {
+    "name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "sm_count": 24,
+    "l2_cache_bytes": 33554432,
+    "l2_cache_mib": 32.0
+  },
+  "gpu_before": {
+    "temperature_c": 47.0,
+    "sm_clock_mhz": 2010.0,
+    "power_draw_w": 14.35,
+    "throttle_harmful": []
+  },
+  "warnings": [
+    "на 64 КиБ холодный охват всего 1.0x от L2 — точка может мерить кэш",
+    "на 128 КиБ холодный охват всего 2.0x от L2 — точка может мерить кэш",
+    "T(M) для режима stream не линеен (макс. невязка 4746.77 мкс) — наклон как цену ядра брать нельзя",
+    "T(M) для режима chain не линеен (макс. невязка 3467.17 мкс) — наклон как цену ядра брать нельзя"
+  ],
+  "size": {
+    "rows": [
+      {
+        "bytes": 65536,
+        "kib": 64,
+        "slices": 512,
+        "cold_span_bytes": 33554432,
+        "cold_span_over_l2": 1.0,
+        "stream": {
+          "us": 9.334,
+          "gbs": 7.0,
+          "spread_pct": 96.04
+        },
+        "graph": {
+          "us": 3.852,
+          "gbs": 17.0,
+          "spread_pct": 6.19
+        }
+      },
+      {
+        "bytes": 131072,
+        "kib": 128,
+        "slices": 512,
+        "cold_span_bytes": 67108864,
+        "cold_span_over_l2": 2.0,
+        "stream": {
+          "us": 11.089,
+          "gbs": 11.8,
+          "spread_pct": 26.34
+        },
+        "graph": {
+          "us": 6.068,
+          "gbs": 21.6,
+          "spread_pct": 0.15
+        }
+      },
+      {
+        "bytes": 262144,
+        "kib": 256,
+        "slices": 512,
+        "cold_span_bytes": 134217728,
+        "cold_span_over_l2": 4.0,
+        "stream": {
+          "us": 14.739,
+          "gbs": 17.8,
+          "spread_pct": 22.21
+        },
+        "graph": {
+          "us": 10.579,
+          "gbs": 24.8,
+          "spread_pct": 0.07
+        }
+      },
+      {
+        "bytes": 524288,
+        "kib": 512,
+        "slices": 512,
+        "cold_span_bytes": 268435456,
+        "cold_span_over_l2": 8.0,
+        "stream": {
+          "us": 17.103,
+          "gbs": 30.7,
+          "spread_pct": 26.64
+        },
+        "graph": {
+          "us": 14.341,
+          "gbs": 36.6,
+          "spread_pct": 44.98
+        }
+      },
+      {
+        "bytes": 1048576,
+        "kib": 1024,
+        "slices": 512,
+        "cold_span_bytes": 536870912,
+        "cold_span_over_l2": 16.0,
+        "stream": {
+          "us": 18.303,
+          "gbs": 57.3,
+          "spread_pct": 56.62
+        },
+        "graph": {
+          "us": 16.632,
+          "gbs": 63.0,
+          "spread_pct": 19.04
+        }
+      },
+      {
+        "bytes": 2097152,
+        "kib": 2048,
+        "slices": 512,
+        "cold_span_bytes": 1073741824,
+        "cold_span_over_l2": 32.0,
+        "stream": {
+          "us": 24.091,
+          "gbs": 87.1,
+          "spread_pct": 21.13
+        },
+        "graph": {
+          "us": 20.72,
+          "gbs": 101.2,
+          "spread_pct": 24.16
+        }
+      },
+      {
+        "bytes": 4194304,
+        "kib": 4096,
+        "slices": 512,
+        "cold_span_bytes": 2147483648,
+        "cold_span_over_l2": 64.0,
+        "stream": {
+          "us": 25.94,
+          "gbs": 161.7,
+          "spread_pct": 30.13
+        },
+        "graph": {
+          "us": 30.219,
+          "gbs": 138.8,
+          "spread_pct": 38.88
+        }
+      },
+      {
+        "bytes": 8388608,
+        "kib": 8192,
+        "slices": 512,
+        "cold_span_bytes": 4294967296,
+        "cold_span_over_l2": 128.0,
+        "stream": {
+          "us": 40.757,
+          "gbs": 205.8,
+          "spread_pct": 3.72
+        },
+        "graph": {
+          "us": 40.906,
+          "gbs": 205.1,
+          "spread_pct": 3.46
+        }
+      },
+      {
+        "bytes": 16777216,
+        "kib": 16384,
+        "slices": 256,
+        "cold_span_bytes": 4294967296,
+        "cold_span_over_l2": 128.0,
+        "stream": {
+          "us": 72.803,
+          "gbs": 230.4,
+          "spread_pct": 0.77
+        },
+        "graph": {
+          "us": 73.344,
+          "gbs": 228.7,
+          "spread_pct": 0.2
+        }
+      },
+      {
+        "bytes": 33554432,
+        "kib": 32768,
+        "slices": 128,
+        "cold_span_bytes": 4294967296,
+        "cold_span_over_l2": 128.0,
+        "stream": {
+          "us": 140.255,
+          "gbs": 239.2,
+          "spread_pct": 0.46
+        },
+        "graph": {
+          "us": 140.376,
+          "gbs": 239.0,
+          "spread_pct": 0.23
+        }
+      },
+      {
+        "bytes": 67108864,
+        "kib": 65536,
+        "slices": 64,
+        "cold_span_bytes": 4294967296,
+        "cold_span_over_l2": 128.0,
+        "stream": {
+          "us": 274.256,
+          "gbs": 244.7,
+          "spread_pct": 0.23
+        },
+        "graph": {
+          "us": 273.264,
+          "gbs": 245.6,
+          "spread_pct": 0.04
+        }
+      },
+      {
+        "bytes": 134217728,
+        "kib": 131072,
+        "slices": 32,
+        "cold_span_bytes": 4294967296,
+        "cold_span_over_l2": 128.0,
+        "stream": {
+          "us": 542.72,
+          "gbs": 247.3,
+          "spread_pct": 0.18
+        },
+        "graph": {
+          "us": 541.228,
+          "gbs": 248.0,
+          "spread_pct": 0.17
+        }
+      },
+      {
+        "bytes": 268435456,
+        "kib": 262144,
+        "slices": 16,
+        "cold_span_bytes": 4294967296,
+        "cold_span_over_l2": 128.0,
+        "stream": {
+          "us": 1082.271,
+          "gbs": 248.0,
+          "spread_pct": 0.58
+        },
+        "graph": {
+          "us": 1079.481,
+          "gbs": 248.7,
+          "spread_pct": 0.18
+        }
+      }
+    ],
+    "pool_bytes": 4294967296
+  },
+  "size_analysis": {
+    "stream": {
+      "peak_gbs": 248.0,
+      "n_at_80pct_bytes": 8388608,
+      "n_at_90pct_bytes": 16777216,
+      "n_at_95pct_bytes": 33554432,
+      "intercept": {
+        "points": 5,
+        "fit_bandwidth_gbs": 249.3,
+        "C_us": 5.288,
+        "C_from": "пересечение t(N) с нулём по линейному хвосту"
+      }
+    },
+    "graph": {
+      "peak_gbs": 248.7,
+      "n_at_80pct_bytes": 8388608,
+      "n_at_90pct_bytes": 16777216,
+      "n_at_95pct_bytes": 33554432,
+      "intercept": {
+        "points": 5,
+        "fit_bandwidth_gbs": 250.1,
+        "C_us": 5.665,
+        "C_from": "пересечение t(N) с нулём по линейному хвосту"
+      }
+    }
+  },
+  "chain": {
+    "rows": [
+      {
+        "kernels": 50,
+        "stream": {
+          "us_per_kernel": 12.6157,
+          "total_us": 630.78,
+          "spread_pct": 41.7
+        },
+        "chain": {
+          "us_per_kernel": 12.8312,
+          "total_us": 641.56,
+          "spread_pct": 35.77
+        },
+        "graph": {
+          "us_per_kernel": 0.9797,
+          "total_us": 48.98,
+          "spread_pct": 13.81
+        }
+      },
+      {
+        "kernels": 100,
+        "stream": {
+          "us_per_kernel": 11.1167,
+          "total_us": 1111.67,
+          "spread_pct": 25.15
+        },
+        "chain": {
+          "us_per_kernel": 10.7749,
+          "total_us": 1077.49,
+          "spread_pct": 32.02
+        },
+        "graph": {
+          "us_per_kernel": 0.9143,
+          "total_us": 91.43,
+          "spread_pct": 6.27
+        }
+      },
+      {
+        "kernels": 200,
+        "stream": {
+          "us_per_kernel": 10.7036,
+          "total_us": 2140.73,
+          "spread_pct": 21.02
+        },
+        "chain": {
+          "us_per_kernel": 11.3357,
+          "total_us": 2267.14,
+          "spread_pct": 49.75
+        },
+        "graph": {
+          "us_per_kernel": 0.932,
+          "total_us": 186.39,
+          "spread_pct": 25.3
+        }
+      },
+      {
+        "kernels": 400,
+        "stream": {
+          "us_per_kernel": 10.888,
+          "total_us": 4355.22,
+          "spread_pct": 34.66
+        },
+        "chain": {
+          "us_per_kernel": 11.0359,
+          "total_us": 4414.37,
+          "spread_pct": 22.84
+        },
+        "graph": {
+          "us_per_kernel": 0.9852,
+          "total_us": 394.1,
+          "spread_pct": 18.06
+        }
+      },
+      {
+        "kernels": 800,
+        "stream": {
+          "us_per_kernel": 11.2008,
+          "total_us": 8960.63,
+          "spread_pct": 18.14
+        },
+        "chain": {
+          "us_per_kernel": 10.8581,
+          "total_us": 8686.51,
+          "spread_pct": 27.13
+        },
+        "graph": {
+          "us_per_kernel": 0.939,
+          "total_us": 751.18,
+          "spread_pct": 6.12
+        }
+      },
+      {
+        "kernels": 1200,
+        "stream": {
+          "us_per_kernel": 10.979,
+          "total_us": 13174.78,
+          "spread_pct": 35.29
+        },
+        "chain": {
+          "us_per_kernel": 11.8594,
+          "total_us": 14231.22,
+          "spread_pct": 205.54
+        },
+        "graph": {
+          "us_per_kernel": 0.9232,
+          "total_us": 1107.84,
+          "spread_pct": 13.32
+        }
+      },
+      {
+        "kernels": 1600,
+        "stream": {
+          "us_per_kernel": 17.0735,
+          "total_us": 27317.65,
+          "spread_pct": 45.0
+        },
+        "chain": {
+          "us_per_kernel": 13.7146,
+          "total_us": 21943.3,
+          "spread_pct": 68.11
+        },
+        "graph": {
+          "us_per_kernel": 0.9823,
+          "total_us": 1571.65,
+          "spread_pct": 15.97
+        }
+      },
+      {
+        "kernels": 2000,
+        "stream": {
+          "us_per_kernel": 13.7477,
+          "total_us": 27495.42,
+          "spread_pct": 131.1
+        },
+        "chain": {
+          "us_per_kernel": 16.4255,
+          "total_us": 32850.94,
+          "spread_pct": 60.69
+        },
+        "graph": {
+          "us_per_kernel": 0.9398,
+          "total_us": 1879.52,
+          "spread_pct": 15.69
+        }
+      }
+    ]
+  },
+  "chain_analysis": {
+    "stream": {
+      "C_us": 14.7876,
+      "batch_overhead_us": -1089.31,
+      "points": 8,
+      "max_resid_us": 4746.77,
+      "linear": false
+    },
+    "chain": {
+      "C_us": 15.436,
+      "batch_overhead_us": -1488.28,
+      "points": 8,
+      "max_resid_us": 3467.17,
+      "linear": false
+    },
+    "graph": {
+      "C_us": 0.9505,
+      "batch_overhead_us": -0.55,
+      "points": 8,
+      "max_resid_us": 51.45,
+      "linear": true
+    }
+  },
+  "serialization_us": 0.6484,
+  "graph_saving_us": 13.8371,
+  "ceiling": {
+    "C_us": 0.9505,
+    "bytes_per_token": 2133000000.0,
+    "bandwidth_gbs": 250.4,
+    "t_memory_us": 8518.4,
+    "steps": [
+      {
+        "utilization": 0.5,
+        "max_kernels_per_token": 8961,
+        "t_token_us": 17036.7,
+        "tokens_per_s": 58.7
+      },
+      {
+        "utilization": 0.6,
+        "max_kernels_per_token": 5974,
+        "t_token_us": 14197.3,
+        "tokens_per_s": 70.4
+      },
+      {
+        "utilization": 0.7,
+        "max_kernels_per_token": 3840,
+        "t_token_us": 12169.1,
+        "tokens_per_s": 82.2
+      },
+      {
+        "utilization": 0.8,
+        "max_kernels_per_token": 2240,
+        "t_token_us": 10648.0,
+        "tokens_per_s": 93.9
+      },
+      {
+        "utilization": 0.9,
+        "max_kernels_per_token": 995,
+        "t_token_us": 9464.9,
+        "tokens_per_s": 105.7
+      },
+      {
+        "utilization": 0.95,
+        "max_kernels_per_token": 471,
+        "t_token_us": 8966.7,
+        "tokens_per_s": 111.5
+      }
+    ],
+    "kernels_now": 1553,
+    "predicted_now": {
+      "t_token_us": 9994.5,
+      "overhead_us": 1476.1,
+      "utilization_pct": 85.2,
+      "tokens_per_s": 100.1
+    },
+    "C_source": "наклон T(M) для графа из тривиальных ядер"
+  },
+  "gpu_after": {
+    "temperature_c": 57.0,
+    "sm_clock_mhz": 2550.0,
+    "power_draw_w": 23.36,
+    "throttle_harmful": []
+  }
+}

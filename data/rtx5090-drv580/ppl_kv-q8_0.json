@@ -1,0 +1,10 @@
+{
+  "model": "Qwen_Qwen3.5-35B-A3B-Q4_0",
+  "perplexity": 5.7778,
+  "stderr": 0.04346,
+  "context": 4096,
+  "chunks": 48,
+  "dataset": "wiki.test.raw",
+  "kv_type": "q8_0",
+  "flash_attn": 1
+}
