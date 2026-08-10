@@ -22,6 +22,9 @@ A kernel does not reach full bandwidth until it reads enough. On an RTX 5090 a 1
 - [HARNESS-en.md](HARNESS-en.md), how the harness itself works
 - [HARNESS-ru.md](HARNESS-ru.md), the same, in Russian
 
+Condensed versions for forums: [POST-en-short.md](POST-en-short.md) and
+[POST-reddit.md](POST-reddit.md).
+
 ## What is in here
 
 ```
@@ -34,6 +37,7 @@ measure/
   profile.sh              nsys capture (needs --cuda-graph-trace=node)
   perplexity.sh           quality gate, per KV cache type
   server_overhead.sh      llama-server against llama-bench
+  sampler_cost.sh         cost of the sampler chain, one stage at a time
 analyze/
   bytes_per_token.py      bytes read per token from GGUF metadata
   decompose.py            measured time against the memory roofline

@@ -27,6 +27,6 @@ The trace shows experts are already batched into one launch (`mul_mat_vec_q` tak
 
 Driver 570 to 580 gives 8% on decode with identical perplexity to four decimals, and the gain lives entirely in small kernels: +8.6% at 1 MB, +0.3% at 537 MB.
 
-Full write-up, code and raw data: <LINK>
+Full write-up, code and raw data: https://github.com/Pessimist228/rtx-5090-in-qwen-3.5-35b-a3b-Why-so-slow
 
 Caveats up front: batch 1 only, no K quants, achieved bandwidth is bytes over time rather than an ncu counter (the rented container had no `CAP_SYS_ADMIN`), and no comparison against vLLM or SGLang. The fusion projection at the end of the post is a projection, I have not written a fused kernel.

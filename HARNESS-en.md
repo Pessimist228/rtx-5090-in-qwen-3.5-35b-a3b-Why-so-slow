@@ -182,6 +182,29 @@ is useful for the graph node cost and for comparing cards with one kernel, but
 its absolute thresholds sit well above those of the real matvec, so the two are
 not interchangeable.
 
+## Sampler cost
+
+```bash
+MODEL=model.gguf ./measure/sampler_cost.sh
+MODEL=model.gguf THREADS=1 OUT=results/sampler_t1.jsonl ./measure/sampler_cost.sh
+```
+
+`server_overhead.sh` measures the whole wrapper around the engine and finds that
+a normal sampler costs 0.723 ms per token against a 3.150 ms engine step. That
+number bundles top_k, top_p, min_p, repeat_penalty and temperature together.
+This script takes the bundle apart: one server, one request shape, one stage
+enabled at a time through the `samplers` array, plus a sweep over k.
+
+Two things it does that `server_overhead.sh` did not. Every request sets
+`ignore_eos`, so token counts are identical across configurations; one run in
+the earlier data stopped at 116 tokens instead of 512 and its client side rate
+was meaningless. And the baseline for the per stage ladder is temperature only
+at 1.0 rather than greedy, because at temperature 0 llama.cpp takes a greedy
+path that skips the chain entirely.
+
+Compare deltas, not absolute rates. Across models the engine step differs, so
+only `full_chain` minus `greedy` is comparable.
+
 ## Quality gate
 
 ```bash
@@ -218,7 +241,8 @@ common/       config.py (loading, model lookup, run directories)
               env.py     (environment capture and validation)
 setup/        build_llama.sh
 measure/      bandwidth.py, bench.py, profile.sh, perplexity.sh,
-              server_overhead.sh, kernel_cost.py, bench_matvec_cold.cpp
+              server_overhead.sh, sampler_cost.sh, kernel_cost.py,
+              bench_matvec_cold.cpp
 analyze/      bytes_per_token.py, decompose.py, attribute.py, report.py
 data/         raw measurements behind the numbers in the posts
 results/      <host>_<gpu>_<model>_<quant>_<timestamp>/
