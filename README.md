@@ -19,7 +19,8 @@ A kernel does not reach full bandwidth until it reads enough. On an RTX 5090 a 1
 
 - [POST-en.md](POST-en.md), full write-up in English
 - [POST-ru.md](POST-ru.md), same in Russian
-- [HARNESS-ru.md](HARNESS-ru.md), how the harness itself works, in Russian
+- [HARNESS-en.md](HARNESS-en.md), how the harness itself works
+- [HARNESS-ru.md](HARNESS-ru.md), the same, in Russian
 
 ## What is in here
 
