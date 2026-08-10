@@ -19,23 +19,21 @@ Same card, same build, batch 1, empty context, Q4_0:
 | dense Qwen3.5-9B | 5.000 | 239.62 | **72%** |
 | MoE Qwen3.5-35B-A3B | 2.133 | 317.45 | **41%** |
 
-The MoE is faster in wall clock, obviously, it reads less than half the bytes. But it wastes about 1.4x of its own ceiling, and the dense model does not. Measured bandwidth on this card is 1671 GB/s, 93% of the 1792 on the box.
+The MoE is faster in wall clock, obviously, it reads less than half the bytes. But it leaves about 1.4x of its own ceiling unused and the dense model does not. Measured bandwidth on this card is 1671 GB/s, 93% of the 1792 on the box.
 
 I went after the three explanations everyone reaches for first, and all three are wrong.
 
-CUDA graphs are captured, 127 launches per 128 tokens, no fallback reason in the log. Routing costs 7% of kernel time against 51% for the matvecs. SM occupancy on a clean uninstrumented run is 97%, so the card is not sitting idle waiting for the CPU. It is busy. It is just reading memory badly.
+CUDA graphs are captured, 127 launches per 128 tokens, no fallback reason in the log. Routing costs 7% of kernel time against 51% for the matvecs. SM occupancy on a clean uninstrumented run is 97%, so the card is busy almost all the time, just reading memory inefficiently.
 
-## What it actually is
+## The cause is bytes per kernel
 
-A kernel does not get full bandwidth until it reads enough bytes. That is the whole story.
-
-I wrote a small ggml program that runs the real `mul_mat_vec_q` over N distinct matrices with a 4 GiB working set, so nothing is ever in L2 and every launch touches weights it has not seen. That is how decode reads, one pass, no reuse.
+A kernel does not reach full bandwidth until it reads enough of them, so I wrote a small ggml program that runs the real `mul_mat_vec_q` over N distinct matrices with a 4 GiB working set. Nothing is ever in L2 and every launch touches weights it has not seen, which is how decode reads: once each, with no reuse.
 
 | MB read per kernel | 1.0 | 4.2 | 8.4 | 16.8 | 33.6 | 134 | 537 |
 |---|---|---|---|---|---|---|---|
 | % of peak bandwidth | 23% | 53% | 70% | 83% | 91% | 98% | 100% |
 
-The MoE averages 4.6 MB per matvec. The dense model averages 22.2 MB. Look up both on that curve and you have the entire gap, no second effect needed.
+The MoE averages 4.6 MB per matvec. The dense model averages 22.2 MB. Look both up on that curve and the whole gap is accounted for without any second effect.
 
 And this is not a llama.cpp bug. The experts are already gathered into one launch: `mul_mat_vec_q` takes an index array and fires 4.1 times per layer, not 24. Eight active experts out of 256 is simply not many bytes even after you batch them. The same model contains the counterexample, the output head is one launch of 417 MB and it hits 1601 GB/s, which is 96% of the card.
 
@@ -43,7 +41,7 @@ And this is not a llama.cpp bug. The experts are already gathered into one launc
 
 It was fitted on the MoE, so I used it to predict the dense model before running it: 248.6 t/s predicted, 239.62 measured, 3.7% off. Same curve predicts speed at 4096, 16384 and 32768 context to within 2.4% with no new measurement.
 
-## The part that will annoy you more than any of the above
+## llama-bench and llama-server disagree by 29%
 
 `llama-bench` says 317 t/s. A real request to `llama-server` gives you 225.
 
@@ -58,7 +56,7 @@ Per token, same pod, same model, 512 tokens generated:
 
 The sampler alone is 23% of engine time. It is CPU work over a 250k vocabulary and it happens between decode steps, so the GPU waits through it. Streaming, which I fully expected to cost something, costs nothing: 225.8 t/s without it, 225.1 with it.
 
-So if you have been comparing your chat speed to a `llama-bench` screenshot and feeling cheated, you were not imagining it. That is a 29% haircut before any optimization work exists.
+So if you have been comparing your chat speed against a `llama-bench` screenshot and feeling cheated, you were not imagining it. That is a 29% haircut before anyone optimizes anything.
 
 ## Three things you can use today
 
@@ -76,7 +74,7 @@ The fusion projection at the end of the write-up, roughly 1.5x from merging matv
 
 ## Two traps if you go measuring yourself
 
-`test-backend-ops perf` duplicates one graph node, so the tensor sits in L2 forever and it will tell you the card does 3654 GB/s. It does 1683.
+`test-backend-ops perf` duplicates one graph node, so the tensor sits in L2 forever and it will tell you the card does 3654 GB/s. The cold curve above peaks at 1683, and a plain sequential read benchmark says 1671, which is the 1671 in the second paragraph. Two instruments, 0.7% apart. Neither of them is 3654.
 
 Timing launches from Python measures Python. I got 9 to 18 µs per launch and believed it for an embarrassing while, until I checked and found the GPU finishing 0.02 µs after the CPU released the queue. It was dispatch overhead the whole time. A captured CUDA graph gives the real number, 0.94 µs per node.
 
