@@ -103,13 +103,22 @@ print(json.dumps({
 PY
 }
 
-echo "warmup"; run warmup "\"temperature\":0.0,\"samplers\":[\"temperature\"]" >/dev/null
+# Clocks ramp for the first few seconds of load. Running each case REPS times
+# back to back maps that ramp onto case order: the first case looks slow and
+# every later one looks fast. The first run of this script put greedy at 5.43
+# ms/token and top_k 40 at 4.39, which is impossible. So warm up properly, then
+# interleave: one full round of every case, repeated, so drift hits all cases
+# the same way and shows up as spread instead of as a fake ordering.
+echo "warmup"
+for _ in 1 2 3; do
+  run warmup "\"temperature\":1.0,\"top_k\":1,\"samplers\":[\"top_k\"]" >/dev/null
+done
 
 : > "$OUT"
-for cfg in "${CASES[@]}"; do
-  name=${cfg%%|*}; extra=${cfg#*|}
-  echo "--- $name ---"
-  for _ in $(seq 1 "$REPS"); do
+for rep in $(seq 1 "$REPS"); do
+  echo "--- round $rep of $REPS ---"
+  for cfg in "${CASES[@]}"; do
+    name=${cfg%%|*}; extra=${cfg#*|}
     R=$(run "$name" "$extra")
     echo "  $R"
     echo "$R" >> "$OUT"
@@ -132,17 +141,25 @@ for line in open(sys.argv[1], encoding="utf-8"):
         continue
     rows[r["name"]].append(r)
 
+def vals(name, key):
+    return [r[key] for r in rows.get(name, []) if r.get(key) is not None]
+
 def med(name, key):
-    v = [r[key] for r in rows.get(name, []) if r.get(key) is not None]
+    v = vals(name, key)
     return statistics.median(v) if v else None
 
-base = med("greedy", "server_ms_per_token")
-print(f"{'case':16} {'ms/token':>9} {'vs greedy':>10} {'t/s':>8} {'n':>4}")
+# k_1 is the floor, not greedy: top_k 1 leaves the dist sampler one candidate,
+# while temperature 0 still softmaxes the whole vocabulary in some builds.
+base = med("k_1", "server_ms_per_token") or med("greedy", "server_ms_per_token")
+print(f"{'case':16} {'ms/token':>9} {'vs k_1':>9} {'spread':>8} {'t/s':>8} {'n':>3}")
 for name in rows:
     ms, tps = med(name, "server_ms_per_token"), med(name, "server_tps")
-    n = len(rows[name])
+    v = vals(name, "server_ms_per_token")
+    spread = (max(v) - min(v)) / ms * 100 if len(v) > 1 and ms else 0.0
     delta = f"{ms - base:+.4f}" if (ms is not None and base is not None) else "-"
-    print(f"{name:16} {ms:9.4f} {delta:>10} {tps:8.2f} {n:4d}")
+    flag = "  noisy" if spread > 10 else ""
+    print(f"{name:16} {ms:9.4f} {delta:>9} {spread:7.1f}% {tps:8.2f} {len(v):3d}{flag}")
 if base:
-    print(f"\nbaseline greedy = {base:.4f} ms/token; deltas are the price of the chain")
+    print(f"\nfloor (top_k 1) = {base:.4f} ms/token; deltas are what the stage adds")
+    print("spread is max minus min over rounds; above 10% the point is not trustworthy")
 PY

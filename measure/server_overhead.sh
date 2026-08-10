@@ -10,28 +10,34 @@
 # между внутренней скоростью и часами клиента есть цена HTTP и стриминга.
 set -uo pipefail
 
-BIN=/workspace/llama.cpp-b10326/build/bin/llama-server
+BIN=${BIN:-/workspace/llama.cpp-b10326/build/bin/llama-server}
 MODEL=${MODEL:-/workspace/models/Qwen_Qwen3.5-35B-A3B-Q4_0.gguf}
-PORT=8080
+PORT=${PORT:-8080}
 OUT=${OUT:-/workspace/harness/results/server_overhead.jsonl}
-NPRED=512
+NPRED=${NPRED:-512}
+THREADS=${THREADS:-$(nproc 2>/dev/null || echo 16)}
+LOG=${LOG:-/workspace/server.log}
+PY=${PY:-python3}
 TMP=/tmp/srv_resp.json
 
 pkill -f "llama-server" 2>/dev/null; sleep 2
 "$BIN" -m "$MODEL" --host 127.0.0.1 --port $PORT \
-       -ngl 99 -fa 1 -ctk f16 -ctv f16 -c 4096 -np 1 -t 16 --no-warmup \
-       > /workspace/server.log 2>&1 &
+       -ngl 99 -fa 1 -ctk f16 -ctv f16 -c 4096 -np 1 -t "$THREADS" --no-warmup \
+       > "$LOG" 2>&1 &
 SRV=$!
 for i in $(seq 1 150); do
   curl -sf "http://127.0.0.1:$PORT/health" >/dev/null 2>&1 && break
   sleep 2
 done
-curl -sf "http://127.0.0.1:$PORT/health" >/dev/null || { echo "сервер не поднялся"; tail -20 /workspace/server.log; exit 1; }
+curl -sf "http://127.0.0.1:$PORT/health" >/dev/null || { echo "сервер не поднялся"; tail -20 "$LOG"; exit 1; }
 echo "сервер поднят"
 
 run() {                       # имя, json-параметры сэмплера, stream
   local name="$1" sampler="$2" stream="$3"
-  local body="{\"prompt\":\"Recite the alphabet slowly.\",\"n_predict\":$NPRED,\"stream\":$stream,\"cache_prompt\":false,$sampler}"
+  # ignore_eos: без него запрос может остановиться раньше срока, и часы клиента
+  # в такой строке считают уже не то. В прошлых данных так вышло 116 токенов
+  # вместо 512 в одном прогоне из двенадцати.
+  local body="{\"prompt\":\"Recite the alphabet slowly.\",\"n_predict\":$NPRED,\"stream\":$stream,\"cache_prompt\":false,\"ignore_eos\":true,$sampler}"
   local t0 t1
   t0=$(date +%s.%N)
   if [ "$stream" = "true" ]; then
@@ -44,7 +50,7 @@ run() {                       # имя, json-параметры сэмплера
          -H 'Content-Type: application/json' -d "$body" > "$TMP"
   fi
   t1=$(date +%s.%N)
-  python3 - "$name" "$t0" "$t1" "$stream" "$TMP" <<'PY'
+  "$PY" - "$name" "$t0" "$t1" "$stream" "$TMP" <<'PY'
 import json, sys
 name, t0, t1, stream, path = sys.argv[1], float(sys.argv[2]), float(sys.argv[3]), sys.argv[4], sys.argv[5]
 raw = open(path, encoding="utf-8", errors="replace").read()
