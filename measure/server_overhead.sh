@@ -13,7 +13,7 @@ set -uo pipefail
 BIN=/workspace/llama.cpp-b10326/build/bin/llama-server
 MODEL=${MODEL:-/workspace/models/Qwen_Qwen3.5-35B-A3B-Q4_0.gguf}
 PORT=8080
-OUT=${OUT:-/workspace/harness/results/server_overhead.json}
+OUT=${OUT:-/workspace/harness/results/server_overhead.jsonl}
 NPRED=512
 TMP=/tmp/srv_resp.json
 
@@ -83,4 +83,4 @@ for cfg in "greedy_nostream|$GREEDY|false" "greedy_stream|$GREEDY|true" \
 done
 
 kill $SRV 2>/dev/null
-echo "записано: $OUT (jsonl)"
+echo "записано: $OUT"
