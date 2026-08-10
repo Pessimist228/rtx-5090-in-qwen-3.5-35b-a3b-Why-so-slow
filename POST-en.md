@@ -65,7 +65,7 @@ The hypothesis is simple: while a kernel reads only a little, it never gets enou
 
 Testing that requires the real kernel and cold data. I wrote a small ggml program that allocates N distinct matrices totalling 4 GiB and calls the same `mul_mat_vec_q` the model uses. The working set is forty times the 96 MiB L2, so by the time the program comes back to a matrix it has been evicted. That matches decode, where each weight is read once per token and never reused.
 
-![bandwidth versus bytes read per kernel](post-curve.png)
+![bandwidth versus bytes read per kernel](post-curve-en.png)
 
 | MB per kernel | 1.0 | 2.1 | 4.2 | 8.4 | 16.8 | 33.6 | 67 | 134 | 537 |
 |---|---|---|---|---|---|---|---|---|---|
