@@ -336,6 +336,41 @@ def collect_llama_cpp(cfg: HostConfig, hash_binaries: bool = True) -> dict:
     m = re.search(r"cuda-([\d.]+)", cfg.bin_dir.name, re.IGNORECASE)
     if m:
         info["build_cuda_version"] = m.group(1)
+        info["build_cuda_version_source"] = "имя каталога релизной сборки"
+    else:
+        # Сборка из исходников: имени каталога нет, и раньше здесь не
+        # записывалось ничего. В отчёт тогда шла версия рантайма torch, которая
+        # к компилятору llama.cpp отношения не имеет и совпадает с ним лишь по
+        # случайности. Спрашиваем сам компилятор.
+        for probe in (["nvcc", "--version"], ["/usr/local/cuda/bin/nvcc", "--version"]):
+            try:
+                r = subprocess.run(probe, capture_output=True, text=True, timeout=20)
+            except (subprocess.SubprocessError, OSError):
+                continue
+            m = re.search(r"release ([\d.]+)", (r.stdout or "") + (r.stderr or ""))
+            if m:
+                info["build_cuda_version"] = m.group(1)
+                info["build_cuda_version_source"] = "nvcc --version"
+                break
+        else:
+            # Компилятора нет (например, бинари принесены с другой машины).
+            # Пишем это явно, чтобы потом не выдавать догадку за измерение.
+            info["build_cuda_version"] = None
+            info["build_cuda_version_source"] = "не определена: nvcc недоступен"
+
+    # Куда указывает символьная ссылка тулкита: помогает, когда в системе
+    # несколько версий и nvcc в PATH не тот, которым собирали.
+    for cand in ("/usr/local/cuda", "/opt/cuda"):
+        try:
+            p = Path(cand)
+            if p.is_symlink():
+                info["cuda_toolkit_link"] = str(p.resolve())
+                break
+            if p.is_dir():
+                info["cuda_toolkit_link"] = str(p)
+                break
+        except OSError:
+            continue
 
     declared = cfg.data["llama_cpp"].get("pinned_commit")
     info["pinned_commit"] = declared
@@ -548,7 +583,9 @@ def format_summary(env: dict, problems: list[str]) -> str:
     )
     lines += [
         f"llama.cpp   : b{llama.get('build_number')} ({llama.get('commit')}) "
-        f"CUDA {llama.get('build_cuda_version')}, {llama.get('compiler')}",
+        f"CUDA {llama.get('build_cuda_version')} "
+        f"[{llama.get('build_cuda_version_source', 'источник не записан')}], "
+        f"{llama.get('compiler')}",
         f"backends    : {', '.join(llama.get('backends_loaded') or [])}",
         f"python      : {env['python']['version']}",
         f"torch       : {env['python']['packages'].get('torch')} "
